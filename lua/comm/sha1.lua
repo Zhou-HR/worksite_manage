@@ -12,11 +12,9 @@ local setmetatable = setmetatable
 
 local _M = { _VERSION = '0.10' }
 
-
 local mt = { __index = _M }
 
-
-ffi.cdef[[
+ffi.cdef [[
 typedef struct SHAstate_st
         {
         SHA_LONG h0,h1,h2,h3,h4;
@@ -35,7 +33,6 @@ local digest_len = 20
 local buf = ffi_new("char[?]", digest_len)
 local ctx_ptr_type = ffi.typeof("SHA_CTX[1]")
 
-
 function _M.new(self)
     local ctx = ffi_new(ctx_ptr_type)
     if C.SHA1_Init(ctx) == 0 then
@@ -45,11 +42,9 @@ function _M.new(self)
     return setmetatable({ _ctx = ctx }, mt)
 end
 
-
 function _M.update(self, s)
     return C.SHA1_Update(self._ctx, s, #s) == 1
 end
-
 
 function _M.final(self)
     if C.SHA1_Final(buf, self._ctx) == 1 then
@@ -59,11 +54,9 @@ function _M.final(self)
     return nil
 end
 
-
 function _M.reset(self)
     return C.SHA1_Init(self._ctx) == 1
 end
-
 
 return _M
 

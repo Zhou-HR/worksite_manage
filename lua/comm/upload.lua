@@ -12,7 +12,6 @@ local ngx_var = ngx.var
 
 local _M = { _VERSION = '0.10' }
 
-
 local CHUNK_SIZE = 4096
 local MAX_LINE_SIZE = 512
 
@@ -21,11 +20,9 @@ local STATE_READING_HEADER = 2
 local STATE_READING_BODY = 3
 local STATE_EOF = 4
 
-
 local mt = { __index = _M }
 
 local state_handlers
-
 
 local function get_boundary()
     local header = ngx_var.content_type
@@ -44,7 +41,6 @@ local function get_boundary()
 
     return match(header, ";%s*boundary=([^\",;]+)")
 end
-
 
 function _M.new(self, chunk_size, max_line_size)
     local boundary = get_boundary()
@@ -83,7 +79,6 @@ function _M.new(self, chunk_size, max_line_size)
     }, mt)
 end
 
-
 function _M.set_timeout(self, timeout)
     local sock = self.sock
     if not sock then
@@ -92,7 +87,6 @@ function _M.set_timeout(self, timeout)
 
     return sock:settimeout(timeout)
 end
-
 
 local function discard_line(self)
     local read_line = self.read_line
@@ -114,7 +108,6 @@ local function discard_line(self)
     return 1
 end
 
-
 local function discard_rest(self)
     local sock = self.sock
     local size = self.size
@@ -130,7 +123,6 @@ local function discard_rest(self)
         end
     end
 end
-
 
 local function read_body_part(self)
     local read2boundary = self.read2boundary
@@ -168,7 +160,6 @@ local function read_body_part(self)
     return "body", chunk
 end
 
-
 local function read_header(self)
     local read_line = self.read_line
 
@@ -199,14 +190,12 @@ local function read_header(self)
         return 'header', line
     end
 
-    return 'header', {key, value, line}
+    return 'header', { key, value, line }
 end
-
 
 local function eof()
     return "eof", nil
 end
-
 
 function _M.read(self)
     -- local size = self.size
@@ -218,7 +207,6 @@ function _M.read(self)
 
     return nil, nil, "bad state: " .. self.state
 end
-
 
 local function read_preamble(self)
     local sock = self.sock
@@ -255,13 +243,11 @@ local function read_preamble(self)
     return read_header(self)
 end
 
-
 state_handlers = {
     read_preamble,
     read_header,
     read_body_part,
     eof
 }
-
 
 return _M

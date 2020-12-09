@@ -12,11 +12,9 @@ local setmetatable = setmetatable
 
 local _M = { _VERSION = '0.10' }
 
-
 local mt = { __index = _M }
 
-
-ffi.cdef[[
+ffi.cdef [[
 int SHA224_Init(SHA256_CTX *c);
 int SHA224_Update(SHA256_CTX *c, const void *data, size_t len);
 int SHA224_Final(unsigned char *md, SHA256_CTX *c);
@@ -27,7 +25,6 @@ local digest_len = 28
 local buf = ffi_new("char[?]", digest_len)
 local ctx_ptr_type = ffi.typeof("SHA256_CTX[1]")
 
-
 function _M.new(self)
     local ctx = ffi_new(ctx_ptr_type)
     if C.SHA224_Init(ctx) == 0 then
@@ -37,11 +34,9 @@ function _M.new(self)
     return setmetatable({ _ctx = ctx }, mt)
 end
 
-
 function _M.update(self, s)
     return C.SHA224_Update(self._ctx, s, #s) == 1
 end
-
 
 function _M.final(self)
     if C.SHA224_Final(buf, self._ctx) == 1 then
@@ -51,10 +46,8 @@ function _M.final(self)
     return nil
 end
 
-
 function _M.reset(self)
     return C.SHA224_Init(self._ctx) == 1
 end
-
 
 return _M

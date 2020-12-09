@@ -3,14 +3,14 @@ local data = ngx.req.get_body_data()
 
 local decode_data = cjson.decode(data)
 if decode_data == nil then
-  local tab = {}
-  tab["result"]="参数必须是JSON格式"
-  tab["error"]=error_table.get_error("ERROR_JSON_WRONG")
-  ngx.say(cjson.encode(tab))
-  return
+    local tab = {}
+    tab["result"] = "参数必须是JSON格式"
+    tab["error"] = error_table.get_error("ERROR_JSON_WRONG")
+    ngx.say(cjson.encode(tab))
+    return
 end
 
-local user_id = comm_func.get_http_header("user_id",ngx)
+local user_id = comm_func.get_http_header("user_id", ngx)
 
 local decode_params = decode_data["params"]
 local proj_code = decode_params["proj_code"]
@@ -20,174 +20,173 @@ local proj_establish_time = decode_params["proj_establish_time"]
 local proj_station_type = decode_params["proj_station_type"]
 local proj_tower_type = decode_params["proj_tower_type"]
 local proj_base_type = decode_params["proj_base_type"]
-local fuzzy_searche_key  = decode_params["fuzzy_searche_key"]
+local fuzzy_searche_key = decode_params["fuzzy_searche_key"]
 local proj_bu_code
-local dev_request_type = comm_func.get_http_header("dev-request-type",ngx)
+local dev_request_type = comm_func.get_http_header("dev-request-type", ngx)
 local limit = decode_params["limit"]
 local offset = decode_params["offset"]
 
 if type(limit) ~= "number" or limit <= 0 then
-  limit = 10
+    limit = 10
 end
 
 if type(offset) ~= "number" or offset <= 0 then
-  offset = 0
+    offset = 0
 end
 
-
-if  type(dev_request_type)  ~= "string" then
-  local tab = {}
-  tab["result"]="参数错误"
-  tab["error"]=error_table.get_error("ERROR_PARAMS_WRONG")
-  ngx.say(cjson.encode(tab))
-  return
+if type(dev_request_type) ~= "string" then
+    local tab = {}
+    tab["result"] = "参数错误"
+    tab["error"] = error_table.get_error("ERROR_PARAMS_WRONG")
+    ngx.say(cjson.encode(tab))
+    return
 end
-
 
 if proj_code ~= nil and type(proj_code) ~= "string" then
-  local tab = {}
-  tab["result"]="proj_code必须为字符串"
-  tab["error"]=error_table.get_error("ERROR_PARAMS_WRONG")
-  ngx.say(cjson.encode(tab))
-  return
+    local tab = {}
+    tab["result"] = "proj_code必须为字符串"
+    tab["error"] = error_table.get_error("ERROR_PARAMS_WRONG")
+    ngx.say(cjson.encode(tab))
+    return
 end
 
 if proj_name ~= nil and type(proj_name) ~= "string" then
-  local tab = {}
-  tab["result"]="proj_name必须为字符串"
-  tab["error"]=error_table.get_error("ERROR_PARAMS_WRONG")
-  ngx.say(cjson.encode(tab))
-  return
+    local tab = {}
+    tab["result"] = "proj_name必须为字符串"
+    tab["error"] = error_table.get_error("ERROR_PARAMS_WRONG")
+    ngx.say(cjson.encode(tab))
+    return
 end
 
 if proj_addr ~= nil and type(proj_addr) ~= "string" then
-  local tab = {}
-  tab["result"]="proj_addr必须为字符串"
-  tab["error"]=error_table.get_error("ERROR_PARAMS_WRONG")
-  ngx.say(cjson.encode(tab))
-  return
+    local tab = {}
+    tab["result"] = "proj_addr必须为字符串"
+    tab["error"] = error_table.get_error("ERROR_PARAMS_WRONG")
+    ngx.say(cjson.encode(tab))
+    return
 end
 
 if proj_establish_time ~= nil and type(proj_establish_time) ~= "string" then
-  local tab = {}
-  tab["result"]="proj_establish_time必须为字符串"
-  tab["error"]=error_table.get_error("ERROR_PARAMS_WRONG")
-  ngx.say(cjson.encode(tab))
-  return
+    local tab = {}
+    tab["result"] = "proj_establish_time必须为字符串"
+    tab["error"] = error_table.get_error("ERROR_PARAMS_WRONG")
+    ngx.say(cjson.encode(tab))
+    return
 end
 
 if proj_station_type ~= nil and type(proj_station_type) ~= "string" then
-  local tab = {}
-  tab["result"]="proj_station_type必须为字符串"
-  tab["error"]=error_table.get_error("ERROR_PARAMS_WRONG")
-  ngx.say(cjson.encode(tab))
-  return
+    local tab = {}
+    tab["result"] = "proj_station_type必须为字符串"
+    tab["error"] = error_table.get_error("ERROR_PARAMS_WRONG")
+    ngx.say(cjson.encode(tab))
+    return
 end
 
 if proj_tower_type ~= nil and type(proj_tower_type) ~= "string" then
-  local tab = {}
-  tab["result"]="proj_tower_type必须为字符串"
-  tab["error"]=error_table.get_error("ERROR_PARAMS_WRONG")
-  ngx.say(cjson.encode(tab))
-  return
+    local tab = {}
+    tab["result"] = "proj_tower_type必须为字符串"
+    tab["error"] = error_table.get_error("ERROR_PARAMS_WRONG")
+    ngx.say(cjson.encode(tab))
+    return
 end
 
 if proj_base_type ~= nil and type(proj_base_type) ~= "string" then
-  local tab = {}
-  tab["result"]="proj_base_type必须为字符串"
-  tab["error"]=error_table.get_error("ERROR_PARAMS_WRONG")
-  ngx.say(cjson.encode(tab))
-  return
+    local tab = {}
+    tab["result"] = "proj_base_type必须为字符串"
+    tab["error"] = error_table.get_error("ERROR_PARAMS_WRONG")
+    ngx.say(cjson.encode(tab))
+    return
 end
 
 if fuzzy_searche_key ~= nil and type(fuzzy_searche_key) ~= "string" then
-  local tab = {}
-  tab["result"]="fuzzy_searche_key必须为字符串"
-  tab["error"]=error_table.get_error("ERROR_PARAMS_WRONG")
-  ngx.say(cjson.encode(tab))
-  return
-else
-  fuzzy_searche_key = comm_func.trim_string(fuzzy_searche_key) 
-  if fuzzy_searche_key == "" then
-    fuzzy_searche_key = nil
-  end
-  if fuzzy_searche_key  ~= nil and string.len(fuzzy_searche_key) < 3 then
     local tab = {}
-    tab["result"]="fuzzy_searche_key的长度不小于3"
-    tab["error"]=error_table.get_error("ERROR_PARAMS_WRONG")
+    tab["result"] = "fuzzy_searche_key必须为字符串"
+    tab["error"] = error_table.get_error("ERROR_PARAMS_WRONG")
     ngx.say(cjson.encode(tab))
     return
-  end
+else
+    fuzzy_searche_key = comm_func.trim_string(fuzzy_searche_key)
+    if fuzzy_searche_key == "" then
+        fuzzy_searche_key = nil
+    end
+    if fuzzy_searche_key ~= nil and string.len(fuzzy_searche_key) < 3 then
+        local tab = {}
+        tab["result"] = "fuzzy_searche_key的长度不小于3"
+        tab["error"] = error_table.get_error("ERROR_PARAMS_WRONG")
+        ngx.say(cjson.encode(tab))
+        return
+    end
 end
-
 
 local userIdValid = comm_func.do_check_user_id_valid(user_id)
 if userIdValid == 0 then
-  local tab = {}
-  tab["result"]="user_id不合法"
-  tab["error"]=error_table.get_error("ERROR_USER_ID_INVALID")
-  ngx.say(cjson.encode(tab))
-  return
+    local tab = {}
+    tab["result"] = "user_id不合法"
+    tab["error"] = error_table.get_error("ERROR_USER_ID_INVALID")
+    ngx.say(cjson.encode(tab))
+    return
 end
-local isAdmin  = false
-local userStatus,userApps = db_query.userFromId_get(user_id)
-if userStatus == true and userApps ~= nil and userApps[1] ~= nil  then
-  proj_bu_code = userApps[1]["user_bu_code"]
-  isAdmin =  db_query.userAdmin_is(userApps[1],user_id) 
-  if isAdmin == true then
-    proj_bu_code = nil
-  end
-  if userApps[1]["user_role"] == 1 then
-    proj_bu_code = string.sub(userApps[1]["user_bu_code"],1,2)
-  else
-    proj_bu_code = comm_func.buprovince_get(proj_bu_code)
-  end
+local isAdmin = false
+local userStatus, userApps = db_query.userFromId_get(user_id)
+if userStatus == true and userApps ~= nil and userApps[1] ~= nil then
+    proj_bu_code = userApps[1]["user_bu_code"]
+    isAdmin = db_query.userAdmin_is(userApps[1], user_id)
+    if isAdmin == true then
+        proj_bu_code = nil
+    end
+    if userApps[1]["user_role"] == 1 then
+        proj_bu_code = string.sub(userApps[1]["user_bu_code"], 1, 2)
+    else
+        proj_bu_code = comm_func.buprovince_get(proj_bu_code)
+    end
 else
-  local tab = {} 
-  tab["result"] = apps 
-  tab["error"] = error_table.get_error("ERROR_PROJ_LIST_GET_FAILED") 
-  ngx.say(cjson.encode(tab))
-  return
+    local tab = {}
+    tab["result"] = apps
+    tab["error"] = error_table.get_error("ERROR_PROJ_LIST_GET_FAILED")
+    ngx.say(cjson.encode(tab))
+    return
 end
 
 function filter_spec_chars(s)
     local ss = {}
     local k = 1
     while true do
-        if k > #s then 
-          break 
+        if k > #s then
+            break
         end
-        local c = string.byte(s,k)
-        if not c then 
-          break 
+        local c = string.byte(s, k)
+        if not c then
+            break
         end
-        if c<192 then
-            if (c>=48 and c<=57) or (c>= 65 and c<=90) or (c>=97 and c<=122) then
+        if c < 192 then
+            if (c >= 48 and c <= 57) or (c >= 65 and c <= 90) or (c >= 97 and c <= 122) then
                 table.insert(ss, string.char(c))
             end
             k = k + 1
-        elseif c<224 then
+        elseif c < 224 then
             k = k + 2
-        elseif c<240 then
-            if c>=228 and c<=233 then
-                local c1 = string.byte(s,k+1)
-                local c2 = string.byte(s,k+2)
+        elseif c < 240 then
+            if c >= 228 and c <= 233 then
+                local c1 = string.byte(s, k + 1)
+                local c2 = string.byte(s, k + 2)
                 if c1 and c2 then
-                    local a1,a2,a3,a4 = 128,191,128,191
-                    if c == 228 then a1 = 184
-                    elseif c == 233 then a2,a4 = 190,c1 ~= 190 and 191 or 165
+                    local a1, a2, a3, a4 = 128, 191, 128, 191
+                    if c == 228 then
+                        a1 = 184
+                    elseif c == 233 then
+                        a2, a4 = 190, c1 ~= 190 and 191 or 165
                     end
-                    if c1>=a1 and c1<=a2 and c2>=a3 and c2<=a4 then
-                        table.insert(ss, string.char(c,c1,c2))
+                    if c1 >= a1 and c1 <= a2 and c2 >= a3 and c2 <= a4 then
+                        table.insert(ss, string.char(c, c1, c2))
                     end
                 end
             end
             k = k + 3
-        elseif c<248 then
+        elseif c < 248 then
             k = k + 4
-        elseif c<252 then
+        elseif c < 252 then
             k = k + 5
-        elseif c<254 then
+        elseif c < 254 then
             k = k + 6
         end
     end
@@ -195,42 +194,42 @@ function filter_spec_chars(s)
 end
 
 local function parseStrToLatLon(str)
-  local beforeStr = str
-  if str ~= nil then
-    str = comm_func.trim_string(str)
-    
-    local toNumber = tonumber(str)
-    if toNumber ~= nil then
-      return str
+    local beforeStr = str
+    if str ~= nil then
+        str = comm_func.trim_string(str)
+
+        local toNumber = tonumber(str)
+        if toNumber ~= nil then
+            return str
+        end
+
+        if string.find(str, "..") ~= nil then
+            str = string.gsub(str, "%..", ".")
+            local toNumber = tonumber(str)
+            if toNumber ~= nil then
+                return str
+            end
+        end
+
+        if string.find(str, "°") ~= nil then
+            str = filter_spec_chars(str)
+            local toNumber = tonumber(str)
+            if toNumber ~= nil then
+                return str
+            end
+        end
+
+        if string.find(str, "？") ~= nil then
+            str = string.gsub(str, "？", "")
+            local toNumber = tonumber(str)
+            if toNumber ~= nil then
+                return str
+            end
+        end
+
     end
-    
-    if string.find(str, "..") ~= nil then
-      str =  string.gsub(str,"%..",".")
-      local toNumber = tonumber(str)
-      if toNumber ~= nil then
-        return str
-      end
-    end
-    
-    if string.find(str, "°") ~= nil then
-      str =  filter_spec_chars(str)
-      local toNumber = tonumber(str)
-      if toNumber ~= nil then
-        return str
-      end
-    end
-    
-    if string.find(str, "？") ~= nil then
-      str =  string.gsub(str,"？","")
-      local toNumber = tonumber(str)
-      if toNumber ~= nil then
-        return str
-      end
-    end
-    
-  end
-  return str;
-  
+    return str;
+
 end
 
 
@@ -247,19 +246,18 @@ local function out_of_china(lng, lat)
     --:param lat:
     --:return:
     --"""
-    return  not (lng > 73.66 and lng < 135.05 and lat > 3.86 and lat < 53.55)
+    return not (lng > 73.66 and lng < 135.05 and lat > 3.86 and lat < 53.55)
 end
 
-
-local function   _transformlat(lng, lat)
+local function _transformlat(lng, lat)
     local lngAbs = lng
     if lngAbs < 0 then
-	lngAbs = 0 - lngAbs
+        lngAbs = 0 - lngAbs
     end
     local ret = -100.0 + 2.0 * lng + 3.0 * lat + 0.2 * lat * lat + 0.1 * lng * lat + 0.2 * math.sqrt(lngAbs)
-    ret =  ret + (20.0 * math.sin(6.0 * lng * pi) + 20.0 * math.sin(2.0 * lng * pi)) * 2.0 / 3.0
-    ret = ret +  (20.0 * math.sin(lat * pi) + 40.0 * math.sin(lat / 3.0 * pi)) * 2.0 / 3.0
-    ret = ret +  (160.0 * math.sin(lat / 12.0 * pi) + 320 * math.sin(lat * pi / 30.0)) * 2.0 / 3.0
+    ret = ret + (20.0 * math.sin(6.0 * lng * pi) + 20.0 * math.sin(2.0 * lng * pi)) * 2.0 / 3.0
+    ret = ret + (20.0 * math.sin(lat * pi) + 40.0 * math.sin(lat / 3.0 * pi)) * 2.0 / 3.0
+    ret = ret + (160.0 * math.sin(lat / 12.0 * pi) + 320 * math.sin(lat * pi / 30.0)) * 2.0 / 3.0
     return ret
 end
 
@@ -268,9 +266,9 @@ local function _transformlng(lng, lat)
     if lngAbs < 0 then
         lngAbs = 0 - lngAbs
     end
-    ret = 300.0 + lng + 2.0 * lat + 0.1 * lng * lng +  0.1 * lng * lat + 0.1 * math.sqrt(lngAbs)
-    ret = ret +  (20.0 * math.sin(6.0 * lng * pi) + 20.0 * math.sin(2.0 * lng * pi)) * 2.0 / 3.0
-    ret = ret +  (20.0 * math.sin(lng * pi) + 40.0 * math.sin(lng / 3.0 * pi)) * 2.0 / 3.0
+    ret = 300.0 + lng + 2.0 * lat + 0.1 * lng * lng + 0.1 * lng * lat + 0.1 * math.sqrt(lngAbs)
+    ret = ret + (20.0 * math.sin(6.0 * lng * pi) + 20.0 * math.sin(2.0 * lng * pi)) * 2.0 / 3.0
+    ret = ret + (20.0 * math.sin(lng * pi) + 40.0 * math.sin(lng / 3.0 * pi)) * 2.0 / 3.0
     ret = ret + (150.0 * math.sin(lng / 12.0 * pi) + 300.0 * math.sin(lng / 30.0 * pi)) * 2.0 / 3.0
     return ret
 end
@@ -314,7 +312,8 @@ local function wgs84_to_gcj02(lng, lat)
     --:param lat:WGS84坐标系的纬度
     --:return:
     --"""
-    if out_of_china(lng, lat) == true then --:  # 判断是否在国内
+    if out_of_china(lng, lat) == true then
+        --:  # 判断是否在国内
         return lng, lat
     end
     local dlat = _transformlat(lng - 105.0, lat - 35.0)
@@ -330,7 +329,7 @@ local function wgs84_to_gcj02(lng, lat)
     return mglng, mglat
 end
 
-local function  gcj02_to_wgs84(lng, lat)
+local function gcj02_to_wgs84(lng, lat)
     --"""
     --GCJ02(火星坐标系)转GPS84
     --:param lng:火星坐标系的经度
@@ -353,12 +352,12 @@ local function  gcj02_to_wgs84(lng, lat)
     return lng * 2 - mglng, lat * 2 - mglat
 end
 
-local function  bd09_to_wgs84(bd_lon, bd_lat)
+local function bd09_to_wgs84(bd_lon, bd_lat)
     local lon, lat = bd09_to_gcj02(bd_lon, bd_lat)
     return gcj02_to_wgs84(lon, lat)
 end
 
-local function  wgs84_to_bd09(lon, lat)
+local function wgs84_to_bd09(lon, lat)
     local lon, lat = wgs84_to_gcj02(lon, lat)
     return gcj02_to_bd09(lon, lat)
 end
@@ -384,61 +383,61 @@ if __name__ == '__main__':
 
 
 
-local orstatus, orapps,orcount,ortotal = db_query.organizationListProvince_get(10000,0)
+local orstatus, orapps, orcount, ortotal = db_query.organizationListProvince_get(10000, 0)
 local organizationTab = {}
 for k, v in pairs(orapps) do
-  organizationTab[v["o_code"]] = v["o_name"]
+    organizationTab[v["o_code"]] = v["o_name"]
 end
 
-local status, apps,count,total = db_query.projectList_get(proj_code,proj_name,proj_addr,proj_establish_time,proj_station_type,proj_tower_type,proj_base_type,proj_bu_code,fuzzy_searche_key,isAdmin,limit,offset)
+local status, apps, count, total = db_query.projectList_get(proj_code, proj_name, proj_addr, proj_establish_time, proj_station_type, proj_tower_type, proj_base_type, proj_bu_code, fuzzy_searche_key, isAdmin, limit, offset)
 
 if status == true then
-	if apps ~= nil and apps[1] ~= nil then
-    		for k, v in pairs(apps) do
-      			local lonStr = v["proj_lon"]
-      			local latStr = v["proj_lat"]
-			
-                        comm_func.do_dump_value(latStr,0)
-			comm_func.do_dump_value(lonStr,0)
-                        lonStr = parseStrToLatLon(lonStr)
-                        latStr = parseStrToLatLon(latStr)
-                        comm_func.do_dump_value(latStr,0)
-			comm_func.do_dump_value(lonStr,0)
-                        if tonumber(latStr) ~= nil and tonumber(lonStr) ~= nil then
-                          --latStr,lonStr =  comm_func.wgs_to_bd_encrypt(latStr,lonStr)
-			  comm_func.do_dump_value(tonumber(lonStr),0)
-			  comm_func.do_dump_value(tonumber(latStr),0)
-                          lonStr,latStr =  wgs84_to_bd09(tonumber(lonStr),tonumber(latStr))
-                          latStr = tostring(latStr)
-                          lonStr = tostring(lonStr)
-			  if string.len(latStr) > 10 then
-                            latStr = string.sub(latStr,1,10)
-                          end
-                          if string.len(lonStr) > 10 then
-                            lonStr = string.sub(lonStr,1,10)
-                          end
-                        end
-                        apps[k]["proj_lon"] = lonStr
-                        apps[k]["proj_lat"] = latStr
-                        apps[k]["proj_links"] = "[]"
-                        apps[k]["proj_company"] = organizationTab[v["proj_company_code"]]
+    if apps ~= nil and apps[1] ~= nil then
+        for k, v in pairs(apps) do
+            local lonStr = v["proj_lon"]
+            local latStr = v["proj_lat"]
+
+            comm_func.do_dump_value(latStr, 0)
+            comm_func.do_dump_value(lonStr, 0)
+            lonStr = parseStrToLatLon(lonStr)
+            latStr = parseStrToLatLon(latStr)
+            comm_func.do_dump_value(latStr, 0)
+            comm_func.do_dump_value(lonStr, 0)
+            if tonumber(latStr) ~= nil and tonumber(lonStr) ~= nil then
+                --latStr,lonStr =  comm_func.wgs_to_bd_encrypt(latStr,lonStr)
+                comm_func.do_dump_value(tonumber(lonStr), 0)
+                comm_func.do_dump_value(tonumber(latStr), 0)
+                lonStr, latStr = wgs84_to_bd09(tonumber(lonStr), tonumber(latStr))
+                latStr = tostring(latStr)
+                lonStr = tostring(lonStr)
+                if string.len(latStr) > 10 then
+                    latStr = string.sub(latStr, 1, 10)
                 end
-  end
-	local tab = {} 
-	local otherTab = {}
-	--comm_func.do_dump_value(total,0)
-	otherTab["total"] = total
-	otherTab["limit"] = limit
-	otherTab["offset"] = offset
-	otherTab["count"] = count
-	tab["other"] = otherTab 
-	tab["result"] = apps 
-	tab["error"] = error_table.get_error("ERROR_NONE") 
-	ngx.say(cjson.encode(tab))
+                if string.len(lonStr) > 10 then
+                    lonStr = string.sub(lonStr, 1, 10)
+                end
+            end
+            apps[k]["proj_lon"] = lonStr
+            apps[k]["proj_lat"] = latStr
+            apps[k]["proj_links"] = "[]"
+            apps[k]["proj_company"] = organizationTab[v["proj_company_code"]]
+        end
+    end
+    local tab = {}
+    local otherTab = {}
+    --comm_func.do_dump_value(total,0)
+    otherTab["total"] = total
+    otherTab["limit"] = limit
+    otherTab["offset"] = offset
+    otherTab["count"] = count
+    tab["other"] = otherTab
+    tab["result"] = apps
+    tab["error"] = error_table.get_error("ERROR_NONE")
+    ngx.say(cjson.encode(tab))
 else
-	local tab = {} 
-	tab["result"] = apps 
-	tab["error"] = error_table.get_error("ERROR_PROJ_LIST_GET_FAILED") 
-	ngx.say(cjson.encode(tab))
+    local tab = {}
+    tab["result"] = apps
+    tab["error"] = error_table.get_error("ERROR_PROJ_LIST_GET_FAILED")
+    ngx.say(cjson.encode(tab))
 end
 

@@ -1,21 +1,19 @@
 local chunk_size = 4096
 local form = file_uploader:new(chunk_size)
 local file
-local filelen=0
+local filelen = 0
 form:set_timeout(60) -- 1 sec
 local filename
 
-
 function get_filename(res)
-    local filename = ngx.re.match(res,'(.+)filename="(.+)"(.*)')
-    if filename then 
+    local filename = ngx.re.match(res, '(.+)filename="(.+)"(.*)')
+    if filename then
         return filename[2]
     end
 end
 
-
 local osfilepath = "/usr/local/openresty/nginx/html/"
-local i=0
+local i = 0
 while true do
     local typ, res, err = form:read()
     if not typ then
@@ -26,9 +24,9 @@ while true do
         if res[1] ~= "Content-Type" then
             filename = get_filename(res[2])
             if filename then
-                i=i+1
-                filepath = osfilepath  .. filename
-                file = io.open(filepath,"w+")
+                i = i + 1
+                filepath = osfilepath .. filename
+                file = io.open(filepath, "w+")
                 if not file then
                     ngx.say("failed to open file ")
                     return
@@ -38,7 +36,7 @@ while true do
         end
     elseif typ == "body" then
         if file then
-            filelen= filelen + tonumber(string.len(res))    
+            filelen = filelen + tonumber(string.len(res))
             file:write(res)
         else
         end
@@ -53,7 +51,7 @@ while true do
     else
     end
 end
-if i==0 then
+if i == 0 then
     ngx.say("please upload at least one file!")
     return
 end

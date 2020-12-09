@@ -2,21 +2,20 @@ ngx.req.read_body()
 local data = ngx.req.get_body_data()
 local decode_data = cjson.decode(data)
 if decode_data == nil then
-  local tab = {}
-  tab["result"]="参数必须是JSON格式"
-  tab["error"]=error_table.get_error("ERROR_JSON_WRONG")
-  ngx.say(cjson.encode(tab))
-  return
+    local tab = {}
+    tab["result"] = "参数必须是JSON格式"
+    tab["error"] = error_table.get_error("ERROR_JSON_WRONG")
+    ngx.say(cjson.encode(tab))
+    return
 end
-
 
 local decode_params = decode_data["params"]
 
 ngx.log(ngx.ERR, "dianbiao: ", 1111111)
 
 local tab = {}
-tab["result"]="参数必须是JSON格式"
-tab["error"]=error_table.get_error("ERROR_JSON_WRONG")
+tab["result"] = "参数必须是JSON格式"
+tab["error"] = error_table.get_error("ERROR_JSON_WRONG")
 ngx.say(cjson.encode(tab))
 return
 

@@ -12,11 +12,9 @@ local setmetatable = setmetatable
 
 local _M = { _VERSION = '0.10' }
 
-
 local mt = { __index = _M }
 
-
-ffi.cdef[[
+ffi.cdef [[
 enum {
     SHA512_CBLOCK = SHA_LBLOCK*8
 };
@@ -42,7 +40,6 @@ local digest_len = 64
 local buf = ffi_new("char[?]", digest_len)
 local ctx_ptr_type = ffi.typeof("SHA512_CTX[1]")
 
-
 function _M.new(self)
     local ctx = ffi_new(ctx_ptr_type)
     if C.SHA512_Init(ctx) == 0 then
@@ -52,11 +49,9 @@ function _M.new(self)
     return setmetatable({ _ctx = ctx }, mt)
 end
 
-
 function _M.update(self, s)
     return C.SHA512_Update(self._ctx, s, #s) == 1
 end
-
 
 function _M.final(self)
     if C.SHA512_Final(buf, self._ctx) == 1 then
@@ -66,10 +61,8 @@ function _M.final(self)
     return nil
 end
 
-
 function _M.reset(self)
     return C.SHA512_Init(self._ctx) == 1
 end
-
 
 return _M

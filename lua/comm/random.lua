@@ -11,12 +11,10 @@ local C = ffi.C
 
 local _M = { _VERSION = '0.10' }
 
-
-ffi.cdef[[
+ffi.cdef [[
 int RAND_bytes(unsigned char *buf, int num);
 int RAND_pseudo_bytes(unsigned char *buf, int num);
 ]]
-
 
 function _M.bytes(len, strong)
     local buf = ffi_new("char[?]", len)
@@ -25,12 +23,11 @@ function _M.bytes(len, strong)
             return nil
         end
     else
-        C.RAND_pseudo_bytes(buf,len)
+        C.RAND_pseudo_bytes(buf, len)
     end
 
     return ffi_str(buf, len)
 end
-
 
 return _M
 
