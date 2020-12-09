@@ -1,0 +1,754 @@
+local _M = {}
+
+function _M.get_new_pgmoon_connection()
+  local host_value = conf_sys.sys_db["host_value"]
+  local port_value = conf_sys.sys_db["port_value"]
+  local database_value = conf_sys.sys_db["database_value"]
+  local user_value = conf_sys.sys_db["user_value"]
+  local password_value = conf_sys.sys_db["password_value"]
+
+  local pg = pgmoon.new({
+    host = host_value,
+    port = port_value,
+    database = database_value,
+    user = user_value,
+    password = password_value
+  })
+  return pg
+end
+
+function _M.excute(sql)
+  local pg = _M.get_new_pgmoon_connection()
+
+  assert(pg:connect())
+  local res = assert(pg:query(sql))
+  pg:keepalive()
+
+  if res ~= nil   then
+    return true ,res
+  else
+    return false ,res
+  end
+end
+
+--
+--For HaTe
+--
+function _M.Mid_HaTe_updateDevEUIWithComNo(comNo,deveui,appeui,meterType)
+
+  local nowTime =  math.ceil(ngx.now())
+  local sqlStr
+  nowTime = tostring(nowTime)
+  local status,result = _M.Mid_HaTe_getMapFromDevEUI(deveui)
+  if status == true and result ~= nil and result[1] ~= nil then
+    sqlStr =  " update tb_dev_eui_mapping_no set no='"..comNo.."', time_s="..nowTime..", app_eui='"..appeui.."', meter_type='"..meterType.."' where dev_eui='"..deveui.."' "
+  else
+    sqlStr =  " insert into tb_dev_eui_mapping_no(dev_eui,no,time_s,app_eui,meter_type)  values('"..deveui.."','"..comNo.."',"..nowTime..",'"..appeui.."','"..meterType.."') "
+  end
+  local pg = _M.get_new_pgmoon_connection()
+
+  assert(pg:connect())
+  local res = assert(pg:query(sqlStr))
+  pg:keepalive()
+
+  if res ~= nil and res[1] ~= nil  then
+    return true ,res
+  else
+    return false ,res
+  end
+end
+function _M.Mid_HaTe_getMapFromComNo(comNo)
+  local pg = _M.get_new_pgmoon_connection()
+
+  assert(pg:connect())
+
+  local res = assert(pg:query("select * from tb_dev_eui_mapping_no where no ='"..comNo.."' order by time_s desc "))
+  pg:keepalive()
+
+  if res ~= nil and res[1] ~= nil and res[1]["dev_eui"] ~= nil then
+    return true ,res
+  else
+    return false ,res
+  end
+end
+function _M.Mid_HaTe_getMapFromDevEUI(deveui)
+  local pg = _M.get_new_pgmoon_connection()
+
+  assert(pg:connect())
+
+  local res = assert(pg:query("select * from tb_dev_eui_mapping_no where dev_eui ='"..deveui.."' order by time_s  desc "))
+  pg:keepalive()
+
+  if res ~= nil and res[1] ~= nil and res[1]["dev_eui"] ~= nil then
+    return true ,res
+  else
+    return false ,res
+  end
+end
+
+function _M.Mid_HaTe_getMeterCtrlFromMap(comNo,ctrl_id,processor_name,ctrl_type,ctrl_state)
+  local sqlStr = ""
+  if comNo ~= nil then
+    sqlStr = " no='"..comNo.."' "
+  end
+  if ctrl_id ~= nil then
+    if string.len(sqlStr) > 0 then
+      sqlStr = sqlStr.." and ctrl_id="..tostring(ctrl_id)
+    else
+      sqlStr = " ctrl_id="..tostring(ctrl_id)
+    end
+  end
+  if processor_name ~= nil then
+    if string.len(sqlStr) > 0 then
+      sqlStr = sqlStr.." and processor_name='"..processor_name.."' "
+    else
+      sqlStr = " processor_name='"..processor_name.."' "
+    end
+  end
+  if ctrl_type ~= nil then
+    if string.len(sqlStr) > 0 then
+      sqlStr = sqlStr.." and ctrl_type='"..ctrl_type.."' "
+    else
+      sqlStr = " ctrl_type='"..ctrl_type.."' "
+    end
+  end
+  if ctrl_state ~= nil then
+    if string.len(sqlStr) > 0 then
+      sqlStr = sqlStr.." and ctrl_state="..tostring(ctrl_state)
+    else
+      sqlStr = " ctrl_state="..tostring(ctrl_state)
+    end
+  end
+
+  local selectStr
+  if string.len(sqlStr) > 0 then
+    selectStr = "select * from tb_meter_ctrl_mapping_id where "..sqlStr.." order by time_s desc "
+  else
+    selectStr = "select * from tb_meter_ctrl_mapping_id  order by time_s desc "
+  end
+
+  local pg = _M.get_new_pgmoon_connection()
+
+  assert(pg:connect())
+
+  local res = assert(pg:query(selectStr))
+  pg:keepalive()
+
+  if res ~= nil and res[1] ~= nil and res[1]["no"] ~= nil then
+    return true ,res
+  else
+    return false ,res
+  end
+end
+function _M.Mid_HaTe_updateMeterCtrlMap(comNo,ctrl_id,processor_name,ctrl_type,ctrl_state)
+
+  local nowTime =  math.ceil(ngx.now())
+  local sqlStr
+  nowTime = tostring(nowTime)
+  local status,result = _M.Mid_HaTe_getMeterCtrlFromMap(comNo,nil,processor_name,ctrl_type,nil)
+  if status == true and result ~= nil and result[1] ~= nil then
+    sqlStr =  " update tb_meter_ctrl_mapping_id set no='"..comNo.."', time_s="..nowTime..", ctrl_id="..tostring(ctrl_id)..", processor_name='"..processor_name.."',ctrl_type='"..ctrl_type.."', ctrl_state="..tostring(ctrl_state).." where no='"..comNo.."' and processor_name='"..processor_name.."' and ctrl_type='"..ctrl_type.."' "
+  else
+    sqlStr =  " insert into tb_meter_ctrl_mapping_id(no,ctrl_id,processor_name,ctrl_type,time_s,ctrl_state)  values('"..comNo.."',"..tostring(ctrl_id)..",'"..processor_name.."','"..ctrl_type.."',"..nowTime..","..tostring(ctrl_state)..") "
+  end
+  local pg = _M.get_new_pgmoon_connection()
+
+  assert(pg:connect())
+  local res = assert(pg:query(sqlStr))
+  pg:keepalive()
+
+  if res ~= nil and res[1] ~= nil  then
+    return true ,res
+  else
+    return false ,res
+  end
+end
+function _M.listTotal_get(sqlStr)
+  
+  local pg = _M.get_new_pgmoon_connection()
+
+  assert(pg:connect())
+  local res = assert(pg:query(sqlStr))
+  pg:keepalive()
+
+  if res ~= nil and res[1] ~= nil   then
+    return true ,res[1]["total"]
+  else
+    return false ,res
+  end
+end
+
+function _M.Link_get_list()
+  local sqlStr = "select * from tb_link_debug  order by submit_time desc "
+
+  local pg = _M.get_new_pgmoon_connection()
+
+  assert(pg:connect())
+  local res = assert(pg:query(sqlStr))
+  pg:keepalive()
+
+  if res ~= nil and res[1] ~= nil  then
+    return true ,res
+  else
+    return false ,res
+  end
+end
+
+function _M.Link_add(sqlStr)
+
+  local pg = _M.get_new_pgmoon_connection()
+
+  assert(pg:connect())
+  local res = assert(pg:query(sqlStr))
+  pg:keepalive()
+
+  if res ~= nil and res[1] ~= nil  then
+    return true ,res
+  else
+    return false ,res
+  end
+end
+
+function _M.userRoleValue_get(roleValue)
+  local roleTab = {}
+  roleTab['0'] = 1000
+  roleTab['1'] = 1100
+  roleTab['2'] = 1200
+  roleTab['3'] = 1300
+  
+  if roleTab[tostring(roleValue)] ~= nil then
+    return roleTab[tostring(roleValue)]
+  else
+    return roleValue
+  end
+end
+
+function _M.user_get(user_name,user_number)
+
+  local pg = _M.get_new_pgmoon_connection()
+
+  assert(pg:connect())
+  local res = nil
+  if user_name ~= nil then 
+    res = assert(pg:query(" select * from tb_user where user_name='"..user_name.."' "))
+  else
+    res = assert(pg:query(" select * from tb_user where user_number='"..user_number.."' "))
+  end
+  pg:keepalive()
+
+  if res ~= nil and res[1] ~= nil  then
+    return true ,res
+  else
+    return false ,res
+  end
+end
+function _M.userId_get(user_name)
+  local pg = _M.get_new_pgmoon_connection()
+
+  assert(pg:connect())
+  local res = nil
+  res = assert(pg:query(" select * from tb_user where user_name='"..user_name.."' "))
+
+  pg:keepalive()
+
+  if res ~= nil and res[1] ~= nil  then
+    return res[1]["user_id"]
+  end
+  return nil
+end
+
+function _M.userFromId_get(user_id)
+
+  local pg = _M.get_new_pgmoon_connection()
+  local sqlStr = string.format(" select * from tb_user where user_id= %s ",tostring(user_id))
+  --comm_func.do_dump_value(sqlStr,0)
+  assert(pg:connect())
+  local res = assert(pg:query(" select * from tb_user where user_id="..tostring(user_id)))
+  pg:keepalive()
+
+  if res ~= nil and res[1] ~= nil  then
+    return true ,res
+  else
+    return false ,res
+  end
+end
+function _M.userAdmin_is(userInfo,user_id)
+  if type(userInfo) == "table" then
+
+    if  (userInfo["user_role"] > 10 and   userInfo["user_role"] < 1100) or userInfo["user_role"] == 0  then
+      return true
+    end
+  else
+    local pg = _M.get_new_pgmoon_connection()
+  
+    assert(pg:connect())
+    local res = assert(pg:query(" select * from tb_user where user_id="..tostring(user_id)))
+    pg:keepalive()
+  
+    if res ~= nil and res[1] ~= nil  then
+      if   (res[1]["user_role"] > 10 and   res[1]["user_role"] < 1100) or res[1]["user_role"] == 0 then
+        return true 
+      end
+    end
+  end
+  return false
+end
+function _M.userToken_update(dev_request_type,tokenStr,tokenUpdateTime,tokenExpiredTime,user_id)
+  local sql = ""
+  if dev_request_type == "user_web" then
+    sql = " update tb_user set  user_web_token='"..tokenStr.."' , user_web_token_update_time="..tostring(tokenUpdateTime).." , user_web_token_expired_time="..tostring(tokenUpdateTime).." where user_id="..tostring(user_id)
+  else 
+    sql = " update tb_user set  user_mobile_token='"..tokenStr.."' , user_mobile_token_update_time="..tostring(tokenUpdateTime).." , user_mobile_token_expired_time="..tostring(tokenUpdateTime).." where user_id="..tostring(user_id)
+  end
+
+  local pg = _M.get_new_pgmoon_connection()
+
+  assert(pg:connect())
+  local res = assert(pg:query(sql))
+  pg:keepalive()
+
+  if res ~= nil and res[1] ~= nil  then
+    return true ,res
+  else
+    return false ,res
+  end
+end
+function _M.userPassword_update(user_id,oldPasswd,newPasswd)
+  local sql = " update tb_user set  user_password='"..newPasswd.."'  where user_id="..tostring(user_id).." and user_password='"..oldPasswd.."' RETURNING user_id "
+ 
+  local pg = _M.get_new_pgmoon_connection()
+
+  assert(pg:connect())
+  local res = assert(pg:query(sql))
+  pg:keepalive()
+
+  if res ~= nil   then
+    return true ,res
+  else
+    return false ,res
+  end
+end
+
+function _M.reset_password(user_id,newPasswd)
+  local sql = " update tb_user set  user_password='"..newPasswd.."'  where user_id="..tostring(user_id).." RETURNING user_id "
+ 
+  local pg = _M.get_new_pgmoon_connection()
+
+  assert(pg:connect())
+  local res = assert(pg:query(sql))
+  pg:keepalive()
+
+  if res ~= nil   then
+    return true ,res
+  else
+    return false ,res
+  end
+end
+
+function _M.userList_get(isAdmin,user_bu_codeLike,user_id,user_name,user_mail,user_phone,user_role,user_number,user_bu_name,user_bu_code,user_job,user_code,user_entry_time,user_company,user_company_code,fuzzy_searche_key,limit,offset)
+  local sqlWhereTab = {}
+  local sqlWhereFuzzyTab = {}
+  local sqlWhereTabIndex = 1
+  local sqlStr
+  local sqlFuzzyStr   = ""
+  local sqlTotal 
+  
+  sqlStr = " select * from tb_user  "
+  sqlTotal = " select count(*) as total from tb_user "
+    
+  if isAdmin == true then
+    sqlWhereTab[sqlWhereTabIndex] = string.format("  where 1=1 ")
+    sqlWhereTabIndex = sqlWhereTabIndex + 1
+  else
+    if user_bu_codeLike ~= nil then
+      local userBuTab = comm_func.split_string(user_bu_codeLike,",")
+      if string.len(user_bu_codeLike) < 3 then
+        sqlWhereTab[sqlWhereTabIndex] = string.format("  where user_bu_code like '%s%%'  ",user_bu_codeLike)
+      elseif #userBuTab > 1 then
+        local whereBuTab = {}
+        for buk, buv in pairs(userBuTab) do
+          table.insert(whereBuTab, string.format(" '%s' ",buv))
+        end 
+        local whereBuTabStr = table.concat(whereBuTab," , ")
+        sqlWhereTab[sqlWhereTabIndex] =  string.format(" where user_bu_code in ( %s )  ",whereBuTabStr)
+      else
+        sqlWhereTab[sqlWhereTabIndex] = string.format("  where  user_bu_code like '%%%s%%' ",user_bu_codeLike)
+      end
+    
+    end
+    sqlWhereTabIndex = sqlWhereTabIndex + 1
+  end
+  
+  if user_id  ~= nil then
+    sqlWhereTab[sqlWhereTabIndex] = string.format("  and user_id=%d ",user_id)
+    sqlWhereTabIndex = sqlWhereTabIndex + 1
+  end
+  if user_name  ~= nil then
+    sqlWhereTab[sqlWhereTabIndex] = string.format("  and user_name  like '%%%s%%' ",user_name)
+    sqlWhereTabIndex = sqlWhereTabIndex + 1
+  elseif fuzzy_searche_key ~= nil then
+    table.insert(sqlWhereFuzzyTab, string.format(" user_name like '%%%s%%' ",fuzzy_searche_key))
+  end
+  if user_mail  ~= nil then
+    sqlWhereTab[sqlWhereTabIndex] = string.format("  and user_mail  like '%%%s%%' ",user_mail)
+    sqlWhereTabIndex = sqlWhereTabIndex + 1
+  elseif fuzzy_searche_key ~= nil then
+    table.insert(sqlWhereFuzzyTab, string.format(" user_mail like '%%%s%%' ",fuzzy_searche_key))
+  end
+  if user_phone  ~= nil then
+    sqlWhereTab[sqlWhereTabIndex] = string.format("  and user_phone  like '%%%s%%' ",user_phone)
+    sqlWhereTabIndex = sqlWhereTabIndex + 1
+  elseif fuzzy_searche_key ~= nil then
+    table.insert(sqlWhereFuzzyTab, string.format(" user_phone like '%%%s%%' ",fuzzy_searche_key))
+  end
+  if user_role  ~= nil then
+    sqlWhereTab[sqlWhereTabIndex] = string.format("  and user_role = %d ",user_role)
+    sqlWhereTabIndex = sqlWhereTabIndex + 1
+  end
+  if user_number  ~= nil then
+    sqlWhereTab[sqlWhereTabIndex] = string.format("  and user_number = '%s' ",user_number)
+    sqlWhereTabIndex = sqlWhereTabIndex + 1
+  elseif fuzzy_searche_key ~= nil then
+    table.insert(sqlWhereFuzzyTab, string.format(" user_number like '%%%s%%' ",fuzzy_searche_key))
+  end
+  if user_bu_name  ~= nil then
+    sqlWhereTab[sqlWhereTabIndex] = string.format("  and user_bu_name  like '%%%s%%' ",user_bu_name)
+    sqlWhereTabIndex = sqlWhereTabIndex + 1
+  elseif fuzzy_searche_key ~= nil then
+    table.insert(sqlWhereFuzzyTab, string.format(" user_bu_name  like '%%%s%%' ",fuzzy_searche_key))
+  end
+  if user_bu_code  ~= nil then
+    sqlWhereTab[sqlWhereTabIndex] = string.format("  and user_bu_code  = '%s' ",user_bu_code)
+    sqlWhereTabIndex = sqlWhereTabIndex + 1
+  end
+  if user_job  ~= nil then
+    sqlWhereTab[sqlWhereTabIndex] = string.format("  and user_job  like '%%%s%%' ",user_job)
+    sqlWhereTabIndex = sqlWhereTabIndex + 1
+  elseif fuzzy_searche_key ~= nil then
+    table.insert(sqlWhereFuzzyTab, string.format("  user_job  like '%%%s%%' ",fuzzy_searche_key))
+  end
+  if user_code  ~= nil then
+    sqlWhereTab[sqlWhereTabIndex] = string.format("  and user_code  = '%s' ",user_code)
+    sqlWhereTabIndex = sqlWhereTabIndex + 1
+  end
+  if user_entry_time  ~= nil then
+    sqlWhereTab[sqlWhereTabIndex] = string.format("  and user_entry_time  like '%%%s%%' ",user_entry_time)
+    sqlWhereTabIndex = sqlWhereTabIndex + 1
+  end
+  if user_company  ~= nil then
+    sqlWhereTab[sqlWhereTabIndex] = string.format("  and user_company  like '%%%s%%' ",user_company)
+    sqlWhereTabIndex = sqlWhereTabIndex + 1
+  elseif fuzzy_searche_key ~= nil then
+    table.insert(sqlWhereFuzzyTab, string.format("  user_company  like '%%%s%%' ",fuzzy_searche_key))
+  end
+  if user_company_code  ~= nil then
+    sqlWhereTab[sqlWhereTabIndex] = string.format("  and user_company_code  = '%s' ",user_company_code)
+    sqlWhereTabIndex = sqlWhereTabIndex + 1
+  end
+  
+  local sqlWhereStr =  table.concat(sqlWhereTab," ")
+  local sqlWhereFuzzyStr = table.concat(sqlWhereFuzzyTab," or ")
+  
+  if string.len(sqlWhereFuzzyStr) > 3 then
+    sqlWhereStr = string.format(" %s and ( %s ) ",sqlWhereStr,sqlWhereFuzzyStr)
+    sqlWhereTab[sqlWhereTabIndex]  = string.format(" and ( %s  ) ",sqlWhereFuzzyStr)
+    sqlWhereTabIndex = sqlWhereTabIndex + 1
+  end
+  sqlTotal= string.format(" %s %s ",sqlTotal,sqlWhereStr)
+  
+
+  sqlWhereTab[sqlWhereTabIndex]  =  string.format( " order by user_company asc,   user_bu_name asc, user_entry_time asc limit %d offset %d  ",limit,offset)
+  sqlWhereTabIndex = sqlWhereTabIndex + 1
+  
+  sqlStr = string.format(" %s %s ",sqlStr,table.concat(sqlWhereTab," "))
+  --comm_func.do_dump_value(sqlStr,0)
+  --comm_func.do_dump_value(sqlTotal,0)
+  
+  local sql = sqlStr
+  local pg = _M.get_new_pgmoon_connection()
+
+  assert(pg:connect())
+  local res = assert(pg:query(sql))
+  pg:keepalive()
+
+  if res ~= nil   then
+    local totalResult,total =   _M.listTotal_get(sqlTotal)
+    if totalResult == true then
+      return true ,res,#res,total,limit,offset
+    else
+      return false ,res
+    end
+  else
+    return false ,res
+  end
+end
+
+
+function _M.user_update(user_id,user_mail,user_phone,user_role,user_number,user_bu_name,user_bu_code,user_job,user_code,user_entry_time,user_company,user_company_code)
+  local sqlWhereTab = {}
+  local sqlWhereTabIndex = 1
+  local sqlStr 
+   
+  if user_mail  ~= nil then
+    sqlWhereTab[sqlWhereTabIndex] = string.format(" user_mail  = '%s' ",user_mail)
+    sqlWhereTabIndex = sqlWhereTabIndex + 1
+  end
+  if user_phone  ~= nil then
+    sqlWhereTab[sqlWhereTabIndex] = string.format("  user_phone  = '%s' ",user_phone)
+    sqlWhereTabIndex = sqlWhereTabIndex + 1
+  end
+  if user_role  ~= nil then
+    sqlWhereTab[sqlWhereTabIndex] = string.format("  user_role = %d ",user_role)
+    sqlWhereTabIndex = sqlWhereTabIndex + 1
+  end
+  if user_number  ~= nil then
+    sqlWhereTab[sqlWhereTabIndex] = string.format("  user_number = '%s' ",user_number)
+    sqlWhereTabIndex = sqlWhereTabIndex + 1
+  end
+  if user_bu_name  ~= nil then
+    sqlWhereTab[sqlWhereTabIndex] = string.format("  user_bu_name  = '%s' ",user_bu_name)
+    sqlWhereTabIndex = sqlWhereTabIndex + 1
+  end
+  if user_bu_code  ~= nil then
+    sqlWhereTab[sqlWhereTabIndex] = string.format("  user_bu_code  = '%s' ",user_bu_code)
+    sqlWhereTabIndex = sqlWhereTabIndex + 1
+  end
+  if user_job  ~= nil then
+    sqlWhereTab[sqlWhereTabIndex] = string.format("  user_job  = '%s' ",user_job)
+    sqlWhereTabIndex = sqlWhereTabIndex + 1
+  end
+  if user_code  ~= nil then
+    sqlWhereTab[sqlWhereTabIndex] = string.format("  user_code  = '%s' ",user_code)
+    sqlWhereTabIndex = sqlWhereTabIndex + 1
+  end
+  if user_entry_time  ~= nil then
+    sqlWhereTab[sqlWhereTabIndex] = string.format("  user_entry_time  = '%s' ",user_entry_time)
+    sqlWhereTabIndex = sqlWhereTabIndex + 1
+  end
+  if user_company  ~= nil then
+    sqlWhereTab[sqlWhereTabIndex] = string.format("  user_company  = '%s' ",user_company)
+    sqlWhereTabIndex = sqlWhereTabIndex + 1
+  end
+  if user_company_code  ~= nil then
+    sqlWhereTab[sqlWhereTabIndex] = string.format("  user_company_code  = '%s' ",user_company_code)
+    sqlWhereTabIndex = sqlWhereTabIndex + 1
+  end
+  
+  local sqlWhereStr =  table.concat(sqlWhereTab," ,")
+  sqlStr = string.format(" %s %s where user_id= %d "," update tb_user set ",sqlWhereStr,user_id)
+  
+  local sql = sqlStr
+  local pg = _M.get_new_pgmoon_connection()
+
+  assert(pg:connect())
+  local res = assert(pg:query(sql))
+  pg:keepalive()
+
+  if res ~= nil   then
+      return true ,res
+  else
+    return false ,res
+  end
+end
+
+
+
+
+function _M.organizationList_get(isAdmin,user_company_code,user_bu_code,o_name,o_code,o_parent_code,o_parent_name,limit,offset)
+  local sqlWhereTab = {}
+  local sqlWhereTabIndex = 1
+  local sqlStr 
+  local sqlTotal 
+  
+  sqlStr = " select * from tb_organization  "
+  sqlTotal = " select count(*) as total from tb_organization "
+    
+  if isAdmin == true then
+    sqlWhereTab[sqlWhereTabIndex] = string.format("  where 1=1 ")
+    sqlWhereTabIndex = sqlWhereTabIndex + 1
+  else
+    sqlWhereTab[sqlWhereTabIndex] = string.format("  where o_parent_code='%s' ",user_company_code)
+    sqlWhereTabIndex = sqlWhereTabIndex + 1
+  end
+  
+  if o_name  ~= nil then
+    sqlWhereTab[sqlWhereTabIndex] = string.format("  and o_name like '%%%s%%' ",o_name)
+    sqlWhereTabIndex = sqlWhereTabIndex + 1
+  end
+  if o_code  ~= nil then
+    sqlWhereTab[sqlWhereTabIndex] = string.format("  and o_code  = '%s' ",o_code)
+    sqlWhereTabIndex = sqlWhereTabIndex + 1
+  end
+  if o_parent_code  ~= nil then
+    sqlWhereTab[sqlWhereTabIndex] = string.format("  and o_parent_code  = '%s' ",o_parent_code)
+    sqlWhereTabIndex = sqlWhereTabIndex + 1
+  end
+  if o_parent_name  ~= nil then
+    sqlWhereTab[sqlWhereTabIndex] = string.format("  and o_parent_name  like '%%%s%%' ",o_parent_name)
+    sqlWhereTabIndex = sqlWhereTabIndex + 1
+  end
+  
+  local sqlWhereStr =  table.concat(sqlWhereTab," ")
+  sqlTotal= string.format(" %s %s ",sqlTotal,sqlWhereStr)
+  
+
+  sqlWhereTab[sqlWhereTabIndex]  =  string.format( " order by o_parent_code asc,   o_code asc limit %d offset %d  ",limit,offset)
+  sqlWhereTabIndex = sqlWhereTabIndex + 1
+  
+  sqlStr = string.format(" %s %s ",sqlStr,table.concat(sqlWhereTab," "))
+  --comm_func.do_dump_value(sqlStr,0)
+  --comm_func.do_dump_value(sqlTotal,0)
+  
+  local sql = sqlStr
+  local pg = _M.get_new_pgmoon_connection()
+
+  assert(pg:connect())
+  local res = assert(pg:query(sql))
+  pg:keepalive()
+
+  if res ~= nil   then
+    local totalResult,total =   _M.listTotal_get(sqlTotal)
+    if totalResult == true then
+      return true ,res,#res,total,limit,offset
+    else
+      return false ,res
+    end
+  else
+    return false ,res
+  end
+end
+
+
+function _M.organizationListProvince_get(limit,offset)
+  local sqlWhereTab = {}
+  local sqlWhereTabIndex = 1
+  local sqlStr 
+  local sqlTotal 
+  
+  sqlStr = " select * from tb_organization   where LENGTH(o_code) =2 "
+  sqlTotal = " select count(*) as total from tb_organization  where LENGTH(o_code) =2 "
+
+  local sql = sqlStr
+  local pg = _M.get_new_pgmoon_connection()
+
+  assert(pg:connect())
+  local res = assert(pg:query(sql))
+  pg:keepalive()
+
+  if res ~= nil   then
+    local totalResult,total =   _M.listTotal_get(sqlTotal)
+    if totalResult == true then
+      return true ,res,#res,total,limit,offset
+    else
+      return false ,res
+    end
+  else
+    return false ,res
+  end
+end
+
+function _M.projectList_get(proj_code,proj_name,proj_addr,proj_establish_time,proj_station_type,proj_tower_type,proj_base_type,proj_bu_code,fuzzy_searche_key,isAdmin,limit,offset)
+  local whereStr = ""
+  local whereTab = {}
+  local whereFuzzyStr = ""
+  local whereFuzzyTab = {}
+  local limitStr = " limit "..tostring(limit).." offset "..tostring(offset)
+  local totalSql = " select count(proj_code) as total from tb_proj "
+  if proj_code ~= nil then
+    table.insert(whereTab, string.format(" proj_code='%s'  ",proj_code))  
+  elseif fuzzy_searche_key ~= nil then
+    table.insert(whereFuzzyTab, string.format(" proj_code like '%%%s%%'  ",fuzzy_searche_key))  
+  end
+  
+  if proj_name ~= nil and proj_name ~= "" then
+    local likeStr = " proj_name like '%"..proj_name.."%' "
+    table.insert(whereTab, likeStr)  
+  elseif fuzzy_searche_key ~= nil then
+    table.insert(whereFuzzyTab, string.format(" proj_name like '%%%s%%'  ",fuzzy_searche_key))  
+  end
+  
+  if proj_addr ~= nil and proj_addr ~= "" then
+    local likeStr = " proj_addr like '%"..proj_addr.."%' "
+    table.insert(whereTab, likeStr)  
+  elseif fuzzy_searche_key ~= nil then
+    table.insert(whereFuzzyTab, string.format(" proj_addr like '%%%s%%'  ",fuzzy_searche_key))  
+  end
+  
+  if proj_establish_time ~= nil and proj_establish_time ~= "" then
+    local likeStr = " proj_establish_time like '%"..proj_establish_time.."%' "
+    table.insert(whereTab, likeStr)  
+  end
+  if proj_station_type ~= nil and proj_station_type ~= "" then
+    local likeStr = " proj_station_type like '%"..proj_station_type.."%' "
+    table.insert(whereTab, likeStr)  
+  end
+  if proj_tower_type ~= nil and proj_tower_type ~= "" then
+    local likeStr = " proj_tower_type like '%"..proj_tower_type.."%' "
+    table.insert(whereTab, likeStr)  
+  end
+  if proj_base_type ~= nil and proj_base_type ~= "" then
+    local likeStr = " proj_base_type like '%"..proj_base_type.."%' "
+    table.insert(whereTab, likeStr)  
+  end
+  if proj_bu_code ~= nil and proj_bu_code ~= "" then
+    local userBuTab = comm_func.split_string(proj_bu_code,",")
+    if string.len( proj_bu_code) == 2 then
+      table.insert(whereTab, string.format(" proj_bu_code like '%s%%'  ",proj_bu_code))
+    elseif #userBuTab > 1 then
+      local whereBuTab = {}
+      for buk, buv in pairs(userBuTab) do
+        table.insert(whereBuTab, string.format(" '%s' ",buv))
+      end 
+      local whereBuTabStr = table.concat(whereBuTab," , ")
+      table.insert(whereTab, string.format(" proj_bu_code in ( %s )  ",whereBuTabStr))
+    else
+      table.insert(whereTab, string.format(" proj_bu_code='%s'  ",proj_bu_code))
+    end  
+  end
+  whereStr = table.concat(whereTab," and ")
+  whereFuzzyStr = table.concat(whereFuzzyTab," or  ")
+  
+  local sql = " select * from tb_proj "
+  if string.len(whereStr) > 3 then
+    if string.len(whereFuzzyStr) > 3 then
+      whereStr = string.format(" %s and ( %s ) ",whereStr,whereFuzzyStr)
+    end
+    sql= sql.." where "..whereStr
+    totalSql = totalSql.." where "..whereStr
+  elseif string.len(whereFuzzyStr) > 3 then
+    sql= sql.." where "..whereFuzzyStr
+    totalSql = totalSql.." where "..whereFuzzyStr
+  end 
+  sql = sql.." order by proj_submit_time desc "..limitStr
+  local pg = _M.get_new_pgmoon_connection()
+  
+  assert(pg:connect())
+  local res = assert(pg:query(sql))
+  pg:keepalive()
+
+  if res ~= nil   then
+    local totalResult,total =   _M.listTotal_get(totalSql)
+    if totalResult == true then
+      return true ,res,#res,total,limit,offset
+    else
+      return false ,res
+    end
+  else
+    return false ,res
+  end
+end
+
+function _M.project_import(data)
+  local status, apps,count,total = _M.projectList_get(data[1],nil,nil,nil,nil,nil,nil,nil,nil,false,1,0)
+  if status == true and count == 1 then
+    if data[14] == "2" then
+    
+	local proj_type_value_old
+       local proj_type_value_new
+       
+       if apps[1]["proj_station_type"] == "钀藉湴" then
+        proj_type_value_old = 0
+       elseif apps[1]["proj_base_type"] == "" then
+        proj_type_value_old = 1
+       else 
+          if string.find(apps[1]["proj_base_type"],"涓嶅悓鎰

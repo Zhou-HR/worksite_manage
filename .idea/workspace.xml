@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AnalysisUIOptions">
+    <option name="GROUP_BY_SEVERITY" value="true" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="d772e8f6-e8cd-4071-b19d-af1d813b87c6" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/conf/nginx.conf" beforeDir="false" afterPath="$PROJECT_DIR$/conf/nginx.conf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lua/OSSUploadSec_get.lua" beforeDir="false" afterPath="$PROJECT_DIR$/lua/OSSUploadSec_get.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lua/comm/capsule_redis.lua" beforeDir="false" afterPath="$PROJECT_DIR$/lua/comm/capsule_redis.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lua/comm/common_function.lua" beforeDir="false" afterPath="$PROJECT_DIR$/lua/comm/common_function.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lua/comm/conf_sys.lua" beforeDir="false" afterPath="$PROJECT_DIR$/lua/comm/conf_sys.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lua/comm/db_android_version.lua" beforeDir="false" afterPath="$PROJECT_DIR$/lua/comm/db_android_version.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lua/comm/db_meter.lua" beforeDir="false" afterPath="$PROJECT_DIR$/lua/comm/db_meter.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lua/comm/db_project.lua" beforeDir="false" afterPath="$PROJECT_DIR$/lua/comm/db_project.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lua/comm/db_push_msg.lua" beforeDir="false" afterPath="$PROJECT_DIR$/lua/comm/db_push_msg.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lua/comm/db_query.lua" beforeDir="false" afterPath="$PROJECT_DIR$/lua/comm/db_query.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lua/comm/db_sync_erp.lua" beforeDir="false" afterPath="$PROJECT_DIR$/lua/comm/db_sync_erp.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lua/comm/db_user.lua" beforeDir="false" afterPath="$PROJECT_DIR$/lua/comm/db_user.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lua/comm/error_code.lua" beforeDir="false" afterPath="$PROJECT_DIR$/lua/comm/error_code.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lua/comm/pgmoon/arrays.lua" beforeDir="false" afterPath="$PROJECT_DIR$/lua/comm/pgmoon/arrays.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lua/comm/pgmoon/crypto.lua" beforeDir="false" afterPath="$PROJECT_DIR$/lua/comm/pgmoon/crypto.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lua/comm/pgmoon/init.lua" beforeDir="false" afterPath="$PROJECT_DIR$/lua/comm/pgmoon/init.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lua/comm/pgmoon/json.lua" beforeDir="false" afterPath="$PROJECT_DIR$/lua/comm/pgmoon/json.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lua/comm/pgmoon/socket.lua" beforeDir="false" afterPath="$PROJECT_DIR$/lua/comm/pgmoon/socket.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lua/comm/proc_meter_info.lua" beforeDir="false" afterPath="$PROJECT_DIR$/lua/comm/proc_meter_info.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lua/comm/resty/dns/resolver.lua" beforeDir="false" afterPath="$PROJECT_DIR$/lua/comm/resty/dns/resolver.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lua/comm/resty/http.lua" beforeDir="false" afterPath="$PROJECT_DIR$/lua/comm/resty/http.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lua/comm/resty/http_headers.lua" beforeDir="false" afterPath="$PROJECT_DIR$/lua/comm/resty/http_headers.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lua/comm/resty/rsa.lua" beforeDir="false" afterPath="$PROJECT_DIR$/lua/comm/resty/rsa.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lua/comm/resty/smtp.lua" beforeDir="false" afterPath="$PROJECT_DIR$/lua/comm/resty/smtp.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lua/comm/resty/smtp/base64.lua" beforeDir="false" afterPath="$PROJECT_DIR$/lua/comm/resty/smtp/base64.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lua/comm/resty/smtp/ltn12.lua" beforeDir="false" afterPath="$PROJECT_DIR$/lua/comm/resty/smtp/ltn12.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lua/comm/resty/smtp/mime-core.lua" beforeDir="false" afterPath="$PROJECT_DIR$/lua/comm/resty/smtp/mime-core.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lua/comm/resty/smtp/mime.lua" beforeDir="false" afterPath="$PROJECT_DIR$/lua/comm/resty/smtp/mime.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lua/comm/resty/smtp/misc.lua" beforeDir="false" afterPath="$PROJECT_DIR$/lua/comm/resty/smtp/misc.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lua/comm/resty/smtp/qp.lua" beforeDir="false" afterPath="$PROJECT_DIR$/lua/comm/resty/smtp/qp.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lua/comm/resty/smtp/tp.lua" beforeDir="false" afterPath="$PROJECT_DIR$/lua/comm/resty/smtp/tp.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lua/comm/spec/postgres.sh" beforeDir="false" afterPath="$PROJECT_DIR$/lua/comm/spec/postgres.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lua/init/init.lua" beforeDir="false" afterPath="$PROJECT_DIR$/lua/init/init.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lua/init/status_checker.lua" beforeDir="false" afterPath="$PROJECT_DIR$/lua/init/status_checker.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lua/meeting_submit.lua" beforeDir="false" afterPath="$PROJECT_DIR$/lua/meeting_submit.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lua/projectLink_submit.lua" beforeDir="false" afterPath="$PROJECT_DIR$/lua/projectLink_submit.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lua/projectList_get.lua" beforeDir="false" afterPath="$PROJECT_DIR$/lua/projectList_get.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lua/py/meeting_manage_gen.py" beforeDir="false" afterPath="$PROJECT_DIR$/lua/py/meeting_manage_gen.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lua/py/project_fined_statistics_gen.py" beforeDir="false" afterPath="$PROJECT_DIR$/lua/py/project_fined_statistics_gen.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lua/py/project_link_abnormal_location_gen.py" beforeDir="false" afterPath="$PROJECT_DIR$/lua/py/project_link_abnormal_location_gen.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lua/py/project_link_work_report_gen.py" beforeDir="false" afterPath="$PROJECT_DIR$/lua/py/project_link_work_report_gen.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lua/py/province_fined_statistics_gen.py" beforeDir="false" afterPath="$PROJECT_DIR$/lua/py/province_fined_statistics_gen.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lua/userERPMsgReceive_set.lua" beforeDir="false" afterPath="$PROJECT_DIR$/lua/userERPMsgReceive_set.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lua/userInfo_get.lua" beforeDir="false" afterPath="$PROJECT_DIR$/lua/userInfo_get.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lua/userListWithOrganizationOneProvince_get.lua" beforeDir="false" afterPath="$PROJECT_DIR$/lua/userListWithOrganizationOneProvince_get.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lua/userListWithOrganization_get.lua" beforeDir="false" afterPath="$PROJECT_DIR$/lua/userListWithOrganization_get.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lua/userList_get.lua" beforeDir="false" afterPath="$PROJECT_DIR$/lua/userList_get.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lua/userOperationLogList_get.lua" beforeDir="false" afterPath="$PROJECT_DIR$/lua/userOperationLogList_get.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lua/userPassword_change.lua" beforeDir="false" afterPath="$PROJECT_DIR$/lua/userPassword_change.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lua/userPassword_reset.lua" beforeDir="false" afterPath="$PROJECT_DIR$/lua/userPassword_reset.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lua/user_change.lua" beforeDir="false" afterPath="$PROJECT_DIR$/lua/user_change.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lua/user_login.lua" beforeDir="false" afterPath="$PROJECT_DIR$/lua/user_login.lua" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="JupyterTrust" id="3d84c567-5424-4144-9d18-59248a171ca2" />
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="D:\IntelliJ IDEA 2020.2.4\plugins\maven\lib\maven3" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1krptrqfKFE19oOvgXqR6UJV9Tu" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../python" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="debugger.stepping" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RunManager">
+    <configuration name="Unnamed" type="nginx.configuration.type" factoryName="nginx server">
+      <option name="serverDescriptorId" value="nginx.descriptor.1606468324028" />
+      <option name="showHttpLog" value="false" />
+      <option name="showErrorLog" value="false" />
+      <option name="httpLogPath" value="./logs/access.log" />
+      <option name="errorLogPath" value="./logs/error.log" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="nginx.configuration.type" factoryName="nginx server">
+      <option name="serverDescriptorId" value="nginx.descriptor.1606468324028" />
+      <option name="showHttpLog" value="false" />
+      <option name="showErrorLog" value="false" />
+      <option name="httpLogPath" value="./logs/access.log" />
+      <option name="errorLogPath" value="./logs/error.log" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SshConsoleOptionsProvider">
+    <option name="myEncoding" value="UTF-8" />
+  </component>
+  <component name="SvnConfiguration" cleanupOnStartRun="true">
+    <configuration useDefault="false">C:\Users\GDXXJS\AppData\Roaming\Subversion</configuration>
+    <supportedVersion>125</supportedVersion>
+  </component>
+  <component name="SvnFileUrlMappingImpl">
+    <option name="myMappingRoots">
+      <list>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="E:\Lua\gd_worksite_manage_trial" />
+          <option name="myCopyRoot" value="E:\Lua\gd_worksite_manage_trial" />
+        </SvnCopyRootSimple>
+      </list>
+    </option>
+    <option name="myMoreRealMappingRoots">
+      <list>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="E:\Lua\gd_worksite_manage_trial" />
+          <option name="myCopyRoot" value="E:\Lua\gd_worksite_manage_trial" />
+        </SvnCopyRootSimple>
+      </list>
+    </option>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d772e8f6-e8cd-4071-b19d-af1d813b87c6" name="Default Changelist" comment="" />
+      <created>1606468782591</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1606468782591</updated>
+      <workItem from="1606468784366" duration="2434000" />
+      <workItem from="1606697477585" duration="4521000" />
+      <workItem from="1606710182717" duration="2207000" />
+      <workItem from="1606715062708" duration="12000" />
+      <workItem from="1606715349010" duration="6762000" />
+      <workItem from="1606784803277" duration="55000" />
+      <workItem from="1606784880027" duration="2108000" />
+      <workItem from="1606787017039" duration="36000" />
+      <workItem from="1606787073262" duration="4796000" />
+      <workItem from="1606802299412" duration="12144000" />
+      <workItem from="1606870951874" duration="5971000" />
+      <workItem from="1606877569728" duration="807000" />
+      <workItem from="1606879141744" duration="231000" />
+      <workItem from="1606880430484" duration="7724000" />
+      <workItem from="1606891739446" duration="5316000" />
+      <workItem from="1606903570138" duration="1309000" />
+      <workItem from="1606958564600" duration="1407000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="440" y="94" key="#Project_Structure" timestamp="1606958598600">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="440" y="94" key="#Project_Structure/0.0.1920.1040@0.0.1920.1040" timestamp="1606958598600" />
+    <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1606715519405">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1606715519405" />
+    <state x="736" y="210" key="#com.intellij.openapi.keymap.impl.ui.EditKeymapsDialog" timestamp="1606785713778">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="736" y="210" key="#com.intellij.openapi.keymap.impl.ui.EditKeymapsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1606785713778" />
+    <state x="621" y="385" key="#nginx_Servers" timestamp="1606715516057">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="621" y="385" key="#nginx_Servers/0.0.1920.1040@0.0.1920.1040" timestamp="1606715516057" />
+    <state x="818" y="265" key="EnvironmentVariablesDialog" timestamp="1606904689458">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="818" y="265" key="EnvironmentVariablesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1606904689458" />
+    <state x="739" y="275" key="FileChooserDialogImpl" timestamp="1606904862514">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="739" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1606904862514" />
+    <state x="540" y="254" key="IDE.errors.dialog" timestamp="1606891620982">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="540" y="254" key="IDE.errors.dialog/0.0.1920.1040@0.0.1920.1040" timestamp="1606891620982" />
+    <state x="461" y="164" key="SettingsEditor" timestamp="1606959192714">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="461" y="164" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1606959192714" />
+    <state x="616" y="240" key="run.anything.popup" timestamp="1606897823478">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="616" y="240" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1606897823478" />
+    <state x="765" y="421" key="svn.upgradeDialog" timestamp="1606879229440">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="765" y="421" key="svn.upgradeDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1606879229440" />
+    <state x="712" y="393" key="svn4idea.checkout.options" timestamp="1606879228529">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="712" y="393" key="svn4idea.checkout.options/0.0.1920.1040@0.0.1920.1040" timestamp="1606879228529" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>
